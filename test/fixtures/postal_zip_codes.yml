@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  postal_zip_code: MyString
+  lat: 9.99
+  long: 9.99
+
+two:
+  postal_zip_code: MyString
+  lat: 9.99
+  long: 9.99

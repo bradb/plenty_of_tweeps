@@ -1,0 +1,34 @@
+<% @page_title = "Browse Twitter Users in Major Cities" %>
+
+<div class="funky-status">
+  Browse Major Cities.
+</div>
+
+<div class="cities-col">
+  <ul class="cities-list">
+    <li class="cities-list-title">United States</li>
+    <% Constants::US_CITIES.sort.each do | us_city | %>
+    <li><%= link_to us_city.titleize, city_search_path(:city => normalize_city_name_for_url(us_city), :country_code => "us") %></li>
+    <% end %>
+  </ul>
+</div>
+
+<div class="cities-col">
+  <ul class="cities-list">
+    <li class="cities-list-title">Canada</li>
+    <% Constants::CANADIAN_CITIES.sort.each do | cdn_city | %>
+    <li><%= link_to cdn_city.titleize, city_search_path(:city => normalize_city_name_for_url(cdn_city), :country_code => "ca") %></li>
+    <% end %>
+  </ul>
+</div>
+
+<div class="cities-col">
+  <ul class="cities-list">
+    <li class="cities-list-title">Europe</li>
+    <% Constants::EUROPEAN_CITIES.sort.each do | euro_city | %>
+    <li>
+    <%= link_to euro_city.first.mb_chars.titleize, city_search_path(:city => normalize_city_name_for_url(euro_city.first), :country_code => euro_city.second) %>
+    </li>
+    <% end %>
+  </ul>
+</div>

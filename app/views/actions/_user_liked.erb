@@ -1,0 +1,9 @@
+<span class="user-image" style="margin-right: 1em">
+  <%= link_to user_profile_image_tag(action.item.target_user), "/users/#{h action.item.target_user.login}" %>
+</span>
+<span class="user-title">
+  Someone likes <%= link_to action.item.target_user.login, "/users/#{h action.item.target_user.login}" %>!
+</span>
+<span class="user-subtitle">
+  <%= time_ago_in_words(action.created_at).sub(/about|less than/, "").upcase %> AGO
+</span>

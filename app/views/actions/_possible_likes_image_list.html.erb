@@ -1,0 +1,7 @@
+<% cache "someone-likes-#{login}", :expires_in => 12.hours do %>
+<ul class="possible-likes">
+  <% users_that_might_like.each do | user | %>
+  <li><%= user_profile_image_tag(user) %></li>
+  <% end %>
+</ul>
+<% end %>

@@ -1,0 +1,15 @@
+Hey <%= @to_user.login %>,
+
+<%= @from_user.login %> sent you a message on Plenty of Tweeps.
+
+--------------------
+Subject: <%= @message.subject %>
+
+<%= @message.body %>
+--------------------
+
+You can reply to this message by visiting the following link:
+<%= send_msg_to_url(:login => @from_user.login) %>
+
+--
+This message was sent to <%= @to_user.email %>. You can view and change your Plenty of Tweeps email notification settings at: <%= email_settings_users_url %>

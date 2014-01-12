@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en-US">
+  <head>
+    <title>Twitter Dating - Plenty of Tweeps</title>
+    <%= stylesheet_link_tag "potweeps" %>
+    <meta name="description" content="A Dating Site for Twitter Users" />
+    <meta name="keywords" content="Social Network, Social Media, Social Messaging, Microblogs, Twitter, Facebook, Communication, Collaboration, Business, Enterprise" />
+    <meta name="tweetmeme-title" content="Single? Use Twitter? Awesome." />
+    <%= javascript_include_tag "jquery-1.4.2.min.js" %>
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body id="<%= %Q{#{controller.controller_name}-#{controller.action_name}} %>">
+    <div id="header-container">
+      <div id="header">
+        <div id="tagline">Single? Use Twitter? Awesome.</div>
+        <div id="intro-image">
+          <%= image_tag("alicia_cht.png") %>
+        </div>
+        <div id="site-description">
+          Plenty of Tweeps is the dating site for Twitter users.
+        </div>
+        <div id="signup-btn" class="round">
+          <%= link_to "Sign up free in 30 seconds &rarr;", login_path, :class => "round" %>
+        </div>
+        <div id="signup-footnote">
+          <small>
+            100% private. We never send tweets, auto-follow, or do anything
+            evil with your Twitter account. Cancel at any time.
+          </small>
+          <div style="margin-top: 1.5em">
+            <small>
+              Already <%= link_to "have an account?", login_path, :style => "color: white" %>
+            </small>
+          </div>
+        </div>
+        <div id="intro-image-text">
+          <a href="http://plentyoftweeps.com/users/alicia_CHt">@alicia_CHt</a> met
+          <a href="http://plentyoftweeps.com/users/30sleeps">@30sleeps</a> on Plenty of Tweeps ;)
+        </div>
+        
+      </div>
+    </div>
+    
+    <div style="width: 940px; margin: 0 auto;" id="content-container">
+      <div id="main-content">
+        <div class="question" style="margin-top: 1em">
+          What is Plenty of Tweeps?
+        </div>
+        <div class="answer">
+          <p>
+            Plenty of Tweeps is an online community for single Twitter users to meet, mingle, and get
+            to know each other beyond their 140 character limits.
+          </p>
+        </div>
+
+        <div class="question" style="padding: 1em 0 0.4em 0">
+          What can I do here?
+        </div>
+
+        <div id="learn-more">
+          <div class="row">
+            <div class="tour-image">
+              <%= link_to(image_tag("example_search.png"), "/images/example_search.png") %>
+            </div>
+            <div class="tour-description">
+              <div class="title">Find single Twitter users in your city.</div>
+              <div class="description">
+                Search single Twitter users based on age and location.
+                Restrict your search to Twitter users nearby, or
+                browse single Twitter users in any city in the world.
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="tour-image">
+              <%= link_to(image_tag("profile_example.png"), "/images/profile_example.png") %>
+            </div>
+            <div class="tour-description">
+              <div class="title">Add a detailed bio and upload photos.</div>
+              <div class="description">
+                Expand upon your Twitter persona by adding a more detailed
+                bio; show your best self by uploading as many photos as you like.
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="tour-image">
+              <%= link_to(image_tag("signal_interest.png"), "/images/signal_interest.png") %>
+            </div>
+            <div class="tour-description">
+              <div class="title">Signal interest in anyone on Twitter.</div>
+              <div class="description">
+                Grab someone's attention by clicking the like button on their profile.
+                We'll send them an anonymous notification. When they log in, they'll
+                find out who liked them.
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="tour-image">
+              <%= link_to(image_tag("interact.png"), "/images/interact.png") %>
+            </div>
+            <div class="tour-description">
+              <div class="title">Send and receive private messages.</div>
+              <div class="description">
+                Get to know someone better by sending them a message. Receive
+                instant email notification when new messages arrive in your
+                Inbox.
+              </div>
+            </div>
+          </div>
+  
+        </div>
+        <div class="question">
+          Why join Plenty of Tweeps?
+        </div>
+        <div id="reasons">
+          <%= render :partial => "top_ten_reasons" %>
+        </div>
+
+        <ul id="newest-members-images-only">
+          <% User.find_newest(:limit => 33).each do | recent_member | %>
+          <li>
+            <%= link_to user_profile_image_tag(recent_member), user_path(recent_member) %>
+          </li>
+          <% end %>
+        </ul>
+
+        <div style="clear:both"></div>
+        <div class="question" style="text-align: center; padding: 0.5em 0 2em 0">
+          <%= image_tag("heart.png", :class => "heart") %>
+          <%= link_to "Sign up free in 30 seconds! &rarr;", "/login", :class => "find-out-who round" %>
+          <%= image_tag("heart.png", :class => "heart") %>
+        </div>
+      </div>
+    </div>
+    <div style="clear:both"></div><%= render :partial => "welcome/footer" %><%= google_analytics_js %>
+    <script type="text/javascript" charset="utf-8">
+      $('#content-container').equalHeights();
+    </script>
+  </body>
+</html>

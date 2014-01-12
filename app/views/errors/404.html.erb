@@ -1,0 +1,49 @@
+<% @page_title = "404 Not Found - Plenty of Tweeps" %>
+
+<div class="error-status">
+  Sorry, we couldn't find that page.
+</div>
+
+<%= image_tag "lonely-puppies.jpg", :style => "float: right; width: 330px; padding: 1em" %>
+
+<div class="error-explanation">
+  This might have happened because we <strong>moved</strong> that page somewhere else,
+  the URL was <strong>mistyped</strong>, or
+  there's a <strong>bug</strong> in the site.
+</div>
+
+<div style="clear:both"></div>
+
+<div class="error-status" style="font-size: 1.8em; padding-left: 0.57em; padding-top: 1em; text-align: left">
+  What to do next? Maybe we can help.
+</div>
+
+<div id="suggested-help-actions">
+  <div id="action-1">
+    <div class="sa-header" style="padding: 0.4em 0">Search PlentyOfTweeps.com</div>
+    <div class="sa-body">
+      <form method="get" action="http://www.google.com/search">
+        <input type="hidden" name="sitesearch" value="plentyoftweeps.com" />
+        <input type="text" class="s" value="<%= request.path.gsub("/", " ").strip %>" name="q" id="s" />
+        <input type="submit" value="Google Search" />
+      </form>
+    </div>
+  </div>
+
+  <div id="action-2">
+    <div class="sa-header round" style="font-weight: normal; padding: 0.5em; line-height: 1.6em; background-color: #dfdfd8; color: #2e2e2e">
+      Want to get in touch? Please feel free to contact us <%= link_to "on Twitter", "http://www.twitter.com/PlentyOfTweeps" %> 
+      or via <%= link_to "email", "mailto:support@plentyoftweeps.com" %>.
+    </div>
+  </div>
+  
+</div>
+
+
+<div style="clear:both"></div>
+
+<div class="photo-credit">
+  <small>That's not actually us in the photo. It was taken by <%= link_to "cloneofsnake", "http://www.flickr.com/photos/cloneofsnake/520524953/" %>.</small>
+</div>
+
+<div style="clear:both"></div>

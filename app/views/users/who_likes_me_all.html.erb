@@ -1,0 +1,46 @@
+<% @page_title = "Who Likes My Profile (#{current_user.who_likes_me_count}) - Plenty of Tweeps" %>
+
+<% content_for :sidebar do %>
+<div id="what-is-this" style="padding-bottom: 0">
+  <h3>What is this?</h3>
+  <p>This is a list of everyone who clicked <strong>I Like This Profile</strong>
+    on your profile.</p>
+</div>
+<div>
+  <h3>What do I do when someone likes my profile?</h3>
+  <p>Assuming you'd like to get to know the person more,
+    you might want to <strong>send them a message</strong>. You
+    can do this by clicking on any of the users on this screen,
+    which will take you to their profile. From there, click <strong>Message</strong>
+    and you're off to the races. ;)</p>
+</div>
+<% end %>
+
+<%= render :partial => "users/who_likes_me_sub_navigation_tabs" %>
+
+<% if current_user.user_liked_by.present? %>
+<div class="funky-status">
+  <%= pluralize(current_user.user_liked_by.count, "person", "people") %>
+  <%= current_user.user_liked_by.count == 1 ? 'likes' : 'like' %> you. #yeahbabyyeah
+</div>
+<ul class="user-listing-compact">
+  <% current_user.user_liked_by.each do |liked_by| %>
+  <li class="contains-floats">
+    <span class="user-image" style="margin-right: 1em">
+      <%= link_to user_profile_image_tag(liked_by.source_user), "/users/#{h liked_by.source_user.login}" %>
+    </span>
+    <span class="user-login">
+      <%= link_to liked_by.source_user.login, "/users/#{h liked_by.source_user.login}" %>
+    </span>
+    <span class="liked-by-ago">
+    liked you <%= time_ago_in_words(liked_by.created_at).sub(/less than|about/, "") %> ago
+    </span>
+  </li>
+  <% end %>
+</ul>
+<% else %>
+<div class="funky-status">
+<p>Nobody likes you.</p>
+<p>Er, that came out wrong.</p>
+</div>
+<% end %>

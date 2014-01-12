@@ -1,0 +1,14 @@
+<% @page_title = "Search Your Twitter Friends - Plenty of Tweeps" %>
+
+<%= render :partial => "sub_navigation_tabs" %>
+<div class="info-box">
+  <p>This list shows all your Twitter friends. Some of these tweeps may not be registered on Plenty of Tweeps.
+  Heck, let's be honest: we just launched this thing, so <em>most</em> of your friends probably have yet to
+  be swayed by the awesomeness.</p>
+  <ul id="suggested-actions">
+    <li>
+      <%= link_to "Browse only friends using Plenty of Tweeps &rarr;", search_friends_path, :class => "round" %>
+    </li>
+  </ul>
+</div>
+<%= render :partial => "user_listing", :locals => {:matching_users_paginated => @matching_users_paginated} %>

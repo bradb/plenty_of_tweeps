@@ -1,0 +1,9 @@
+Hi <%= @to_user.login %>,
+
+Someone you liked, <%= @just_joined_user.login %>, has just joined Plenty of Tweeps!
+
+You can view <%= @just_joined_user.his_or_her %> profile here:
+<%= user_url(@just_joined_user) %>
+
+--
+This message was sent to <%= @to_user.email %>. You can view and change your Plenty of Tweeps email notification settings at: <%= email_settings_users_url %>

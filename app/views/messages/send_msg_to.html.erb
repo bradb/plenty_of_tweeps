@@ -1,0 +1,76 @@
+<% @page_title = "Send a Message to #{h @message.to_user.login} - Plenty of Tweeps" %>
+
+<% content_for :header do %>
+<script type="text/javascript">
+  $(function() {
+    <% if params[:message].present? && params[:message][:subject].present? %>
+    $('#message_body').focus();
+    <% else %>
+    $('#message_subject').focus();
+    <% end %>
+    $('button[type=submit]').button();    
+  });
+</script>
+
+<% end %>
+
+<%= render :partial => "inbox_sub_navigation_tabs" %>
+
+<% if @message.errors.present? %>
+<div class="errors round" style="margin-top: 1em">
+  <ul>
+    <% @message.errors.each_full do |err_msg| %>
+    <li>
+      <%= err_msg %>
+    </li><% end %>
+  </ul>
+</div>
+<% else %>
+<div class="funky-status">
+  Wordsmiths get 58% more dates. Just sayin'.
+</div>
+<% end %>
+
+<div id="message-to" class="contains-floats">
+<% form_for @message, :url => send_msg_to_path(:login => @message.to_user.login), :html => {:id => "send-msg"} do |f| %>
+
+<div>
+  <%= f.label :to_user_id, "To:" %>
+  
+  <div class="msg-input">
+    <%= link_to user_profile_image_tag(@message.to_user), "/users/#{h @message.to_user.login}" %>
+    <span class="user-login"><%= link_to @message.to_user.login, "/users/#{h @message.to_user.login}" %></span>
+  </div>
+</div>
+
+<div style="clear:both; height: 1em"></div>
+
+<div>
+  <%= f.label :subject, "Subject:" %>
+  <div class="msg-input">
+    <%= f.text_field :subject, :size => 42 %>
+  </div>
+</div>
+
+<div style="clear:both; height: 1em"></div>
+
+<div>
+  <%= f.label :body, "Body:" %>
+  <div class="msg-input">
+    <%= f.text_area :body, :rows => 5, :cols => 100 %>
+  </div>
+</div>
+
+<div style="clear:both; height: 1em"></div>
+
+<div>
+  <label></label>
+  <div>
+    <button type="submit" id="send-msg-button">
+      <%= image_tag('send_icon_16.png', :class => "icon-16") %>
+      Send
+    </button>
+  </div>
+</div>
+<% end %>
+</div>

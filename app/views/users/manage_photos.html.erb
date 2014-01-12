@@ -1,0 +1,57 @@
+<% @page_title = "Manage Photos - Plenty of Tweeps" %>
+
+<% content_for :header do %>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $('button[type=submit]').button();
+  });
+</script>
+<% end %>
+
+<%= render :partial => "profile_sub_navigation_tabs" %>
+<% if current_user.photo_upload_limit_reached? %>
+<div style="margin-top: 1em">
+<%= render :partial => "users/profile_actions_limit_reached",
+           :locals => {:limit_reached_message => "Your photo upload limit has been reached. You may wish to increase your upload limit by upgrading your account." } %>
+</div>
+<% end %>
+
+<div id="non-results-content">
+  <h2>
+    Your Photos
+  </h2>
+  <% if current_user.errors.present? %>
+  <div class="errors round" style="margin-bottom: 0.5em">
+    <ul>
+      <li>
+        Sorry, the photo you tried to upload is either too big or 
+        in an invalid format. (It must be a jpeg, jpg, or png. 5 MB max.)
+      </li>
+    </ul>
+  </div>
+  <% end %>
+  
+  <p>
+    All photos you upload will be visible on <%= link_to "your public profile page", user_path(current_user) %>, so please do keep it clean. But not <em>too</em> clean, of course. That would be boring.
+  </p>
+  <% current_user_valid_photos = current_user.photos.select { |p| p.present? && p.valid? } %>
+  <% if current_user_valid_photos.present? then %>
+  <p><strong>You've uploaded <%= pluralize(current_user_valid_photos.count, "photo") %>.</strong></p>
+  <%= render :partial => "uploaded_photos_list", :locals => { :photos => current_user_valid_photos,
+                                                              :show_delete => true } %>
+  <% else %>
+  <div class="info-box">
+    <p>
+      You have not yet uploaded any photos.
+    </p>
+  </div><% end %>
+  <% form_for current_user, :url => manage_photos_users_path,
+              :html => {:multipart => true, :style => "margin-top: 1em"} do |f| %>
+    <label>Upload a new photo <span style="color: #999999; margin-left: 0.5em">jpeg, jpg, or png. 5 MB max.</span></label>
+    <input id="user_photo_attributes__data" name="user[photo_attributes][][data]" size="30" type="file" style="float: left" />
+    <button type="submit" style="float: left; clear: left; margin: 1em 0em 0em 0em">
+      <%= image_tag('photos_icon_16.png', :class => "icon-16") %> Upload Photo
+    </button>
+  <% end %>
+  <div style="clear:both"></div>
+</div>

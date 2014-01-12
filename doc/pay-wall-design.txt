@@ -1,0 +1,26 @@
+Three account types:
+
+Introvert:
+    Free
+    2 photo uploads
+    1 sent message per day
+    1 smile per day
+    1 liked profile per day
+
+Meet and Mingle:
+    $14.95/month
+    4 photo uploads
+    5 sent messages per day
+    5 smiles per day
+    5 liked profiles per day
+    Site-Wide Image Gallery Browser
+    
+Social Skydiver:
+    $24.95/month
+    10 photo uploads
+    12 messages per day
+    12 smiles per day
+    12 liked profiles per day
+    Site-Wide Image Gallery Browser
+    See who's viewed your profile
+    Premium ad placement

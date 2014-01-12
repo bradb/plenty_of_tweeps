@@ -1,0 +1,209 @@
+<% content_for :sidebar do %>
+<h3 style="margin-bottom: 0.3em">Tell Your Friends About Plenty of Tweeps!</h3>
+<div style="float: left">
+  <span id="retweet"><script type="text/javascript">
+  //<![CDATA[
+   tweetmeme_url = 'http://plentyoftweeps.com';
+   tweetmeme_source = 'PlentyOfTweeps';
+  //]]>
+  </script> <script type="text/javascript" src="http://tweetmeme.com/i/scripts/button.js">
+  </script></span>
+</div>
+<div style="float:left; margin-left: 1.5em">
+  <a name="fb_share" type="button" share_url="http://plentyoftweeps.com" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+</div>
+
+<div style="clear:both"></div>
+<h3>Account Type</h3>
+<p>
+  <%= current_user.account_type_obj.display_name %>
+  <%= link_to image_tag("help_icon_16.png"), upgrade_account_users_path %>
+</p>
+
+<h3 style="margin-bottom: 0.5em">
+  What Next?
+</h3>
+<div class="action-buttons whats-next-buttons">
+  <div>
+    <%= link_to "#{image_tag('edit_icon_16.png')} Edit your bio", profile_users_path %>
+  </div>
+
+  <div>
+    <%= link_to "#{image_tag('photos_icon_16.png')} Upload photos", manage_photos_users_path %>
+  </div>
+
+  <div>
+    <%= link_to "#{image_tag('search_icon_16.png')} Find cool profiles", search_all_twitter_users_nearby_path %>
+  </div>
+  
+  <% unless current_user.social_skydiver? %>
+  <div>
+    <%= link_to "#{image_tag('star_icon_16.png')} Upgrade account", upgrade_account_users_path %>
+  </div>  
+  <% end %>
+
+</div>
+
+<%= render :partial => "search/go_to_user" %>
+
+<% if current_user.can_see_who_has_viewed_their_profile? %>
+  <% @last_10_users_who_viewed_my_profile = current_user.profile_viewed_by_users.last_10_unique %>
+  <h3 style="margin-bottom: 1em">Who's Viewed My Profile Lately?</h3>
+  <% if @last_10_users_who_viewed_my_profile.present? %>
+    <%= render :partial => "users/sidebar_user_listing",
+               :locals => {:users => @last_10_users_who_viewed_my_profile} %>
+  <% else %>
+    <p style="margin-top: -0.5em">
+      No one has viewed your profile lately. You can increase your chances of getting
+      noticed by <%= link_to "expanding your bio", profile_users_path %>,
+      <%= link_to "uploading photos", manage_photos_users_path %>, and
+      liking <%= link_to "profiles that interest you", search_all_twitter_users_nearby_path %>.
+    </p>
+  <% end %>
+<% end %>
+
+<% if @recently_viewed_users.present? %>
+<h3 style="margin-bottom: 1em">Recently Viewed</h3>
+<%= render :partial => "users/recently_viewed_users_listing",
+           :locals => {:users => @recently_viewed_users} %>
+<% end %>
+
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.image-gallery').cycle({
+    fx: 'fade', // choose your transition type, ex: fade, scrollUp, shuffle, etc...
+    speed: 3000,
+    timeout: 6000
+  });
+});
+</script>
+
+<div id="user-messages">
+  <ul class="user-messages">
+    <% current_user.smiles_received.each do |smile_received| %>
+    <li class="round" id="like-<%= smile_received.id %>">
+      <%= link_to_remote image_tag("delete_icon_24.png"), :url => smile_path(smile_received), :method => :delete, :html => { :class => "delete" } %>
+      <%= image_tag smile_received.source_user.profile_image_url, :class => "liked-by-user-image" %>
+      <%= link_to smile_received.source_user.login, user_path(smile_received.source_user) %> smiled at you. <%= image_tag "smile_icon_24.png" %>
+      <span class="age"><%= time_ago_in_words(smile_received.created_at).sub(/about|less than/, "").upcase %> AGO</span>
+    </li>
+    <% end %>
+  </ul>
+</div>
+
+
+<% @featured_user = User.find_featured(current_user) %>
+<% if @featured_user.present? %>
+<div class="featured-users">  
+  <div class="featured-user">
+    <div class="featured-label">
+      <div style="font-size: 1em; color: #2e2e2e; font-weight: bold;padding-bottom: 0.5em">
+        FEATURED
+      </div>
+      <div class="featured-user-image">
+        <%= link_to user_profile_image_tag(@featured_user), user_path(@featured_user) %>
+      </div>
+      <div class="featured-user-login">
+        <%= link_to @featured_user.login, user_path(@featured_user) %>
+      </div>
+    </div>
+    <div class="featured-user-bio">
+      <span class="featured-user-details">
+        <%= @featured_user.age %>, <%= h @featured_user.gender_display.upcase %>.
+        <%= h @featured_user.city_name.mb_chars.upcase %>.
+      </span>
+      <% bio = @featured_user.extended_bio.present? ? @featured_user.extended_bio : @featured_user.description %>
+      <%= h(truncate(bio, :length => 95)) %>
+      <span style="white-space:nowrap;"><%= link_to "Read more &rarr;", user_path(@featured_user), :id => "read-more" %></span>
+      <p style="margin-bottom: 0; padding-bottom: 0">
+        <span class="featured-user-help">
+          A featured ad placement is available to all paid members. Learn more
+          by visiting the <%= link_to "upgrade account", upgrade_account_users_path %> page.
+        </span>
+      </p>
+    </div>
+    <div class="image-gallery">
+      <% @featured_user.photos.each do | photo | %>
+      <%= image_tag photo.data.url(:small), :alt => @featured_user.login %>
+      <% end %>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+</div>
+<% end %>
+
+<div class="two-column-user-listing">
+  <div class="column" id="left-column">
+    <% cache "users-nearby-#{current_user.login}", :expires_in => 10.minutes do %>
+    <h4>USERS NEARBY</h4>
+    <ul>
+      <% current_user.find_nearby(:order => "RAND()", :limit => 20).each do |user| %>
+        <li>
+          <div class="user-left-col">
+            <div class="user-image">
+              <%= user_profile_image_tag(user) %>
+            </div>
+          </div>
+          <div class="user-right-col">
+            <div class="user-login">
+              <%= link_to user.login, user_path(user.login) %>
+            </div>
+            <div class="details">
+              <%= user.age %><%= user.gender %>,
+              <% if user.city_name.present? %>
+                <%= user.city_name %>
+              <% else %>
+                Location Unknown
+              <% end %>          
+            </div>
+          </div>
+          <div class="bio">
+            <% if user.extended_bio.present? %>
+              <%= truncate(user.extended_bio, :length => 200) %>
+            <% elsif user.description.present? %>
+              <%= truncate(user.description, :length => 200) %>
+            <% else %>
+              <%= user.login %> has not written a bio.
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+    <% end %>
+    <div style="clear:both">
+      <%= link_to "See more users nearby &rarr;", search_nearby_path, :class => "see-more-users-nearby" %>
+    </div>
+  </div>
+  <div class="column" id="right-column">
+    <% cache "photo-uploads-#{current_user.login}", :expires_in => 10.minutes do %>
+    <h4>RECENT PHOTO UPLOADS</h4>
+    <ul>
+      <% Photo.recently_uploaded(current_user).each do |photo| %>
+      <li>
+        <div class="uploaded-photo">
+          <%= link_to(image_tag(photo.data.url(:small)), user_path(photo.user)) %>
+        </div>
+        <div class="uploaded-by">
+          <div style="color: #999999">uploaded by</div>
+          <div style="padding-top: 0.3em">
+            <%= link_to photo.user.login, user_path(photo.user) %>
+          </div>
+        </div>
+        <div style="clear:both"></div>
+      </li>
+      <% end %>      
+    </ul>
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $('div.action-buttons a').button();
+    $('a.delete').click(function() {
+      $(this).parent().slideUp();
+    });
+  })
+</script>

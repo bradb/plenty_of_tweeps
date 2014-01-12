@@ -1,0 +1,9 @@
+<div id="current-location">
+<% if current_user.city_name.blank? %>
+<div class="notice"><ul><li>Please set your location before continuing.</li>
+</ul></div>
+<% else %>
+<%= current_user.location %>.
+<%= link_to "Find awesome #{current_user.interested_in_display} in #{current_user.city_name} &rarr;", search_nearby_path, :class => "suggested-action", :style => "margin-left: 1em" %>
+<% end %>
+</div>

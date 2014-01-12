@@ -1,0 +1,11 @@
+<% cache "users-nearby-#{current_user.login}", :expires_in => 5.minutes do %>
+<div id="users-nearby">
+  <h3 style="margin-bottom: 1em">Users Nearby</h3>
+  <%= render :partial => "users/sidebar_user_listing",
+             :locals => {:users => current_user.find_nearby(:order => "RAND()", :limit => 10)} %>
+<% end %>
+
+<div style="padding-bottom: 1em">
+<%= link_to "See more users nearby &rarr;", search_nearby_path%>
+</div>
+</div>

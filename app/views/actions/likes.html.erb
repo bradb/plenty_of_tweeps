@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en-US" id="like-workflow">
+  <head>
+    <title>
+      <% @page_title ||= "Plenty of Tweeps - Single? Use Twitter? Awesome." %> <%= @page_title %>
+    </title><%= stylesheet_link_tag "potweeps" %>
+    <meta name="description" content="A Dating Site for Twitter Users" />
+    <meta name="keywords" content="Social Network, Social Media, Social Messaging, Microblogs, Twitter, Facebook, Communication, Collaboration, Business, Enterprise" />
+    <meta name="tweetmeme-title" content="Single? Use Twitter? Awesome." /><%= javascript_include_tag :defaults %><%= javascript_include_tag "jquery.cycle.all.2.72.js" %>
+  </head>
+  <body>
+    <div id="likes-container">
+      <div id="what-it-is" class="round">
+        Welcome to <span style="color: white">Plenty of Tweeps</span>, the online community
+        where single Twitter users connect.
+      </div>
+      <div id="someone-likes-you-intro">
+        <p style="text-align:center; padding-bottom: 0; margin-bottom: 0"><strong>Hi <%= h @liked_user.login %>!</strong> One of these Plenty of Tweeps users likes you.</p>
+        <p style="text-align:center; padding: 0; margin: 0">&darr;</p>
+        <%= render :partial => "possible_likes_image_list",
+                   :locals => {:login => @liked_user.login, :users_that_might_like => @users_that_might_like} %>
+        <div style="clear:both"></div>
+        <p style="text-align:center">
+        <%= render :partial => "find_out_who_button" %>
+        </p>
+      </div>
+      <div id="screenshots">
+        <h3>What Is This?</h3>
+        <p>Plenty of Tweeps makes it easy for single, Twitter users to interact. Here's
+          a peek at some of the features we offer to our members.</p>
+        <div class="screenshot">
+          <div class="ss-title">Local Twitter Singles Search</div>
+          <%= image_tag "example_search.png" %>
+        </div>
+        
+        <div class="screenshot">
+          <div class="ss-title">Extended Bio / Photo Uploads</div>
+          <%= image_tag "profile_example.png" %>
+        </div>
+        
+        <div class="screenshot">
+          <div class="ss-title">Signal Interest</div>
+          <%= image_tag "signal_interest.png" %>
+        </div>
+
+        <div class="screenshot">
+          <div class="ss-title">Send / Receive Messages</div>
+          <%= image_tag "interact.png" %>
+        </div>
+      </div>
+      <div id="faq">
+        <p class="question">But I'm not a member, how did they find me?</p>
+        <p class="answer">Plenty of Tweeps makes it easy to search all Twitter users tweeting nearby,
+          and allows signaling interest in anyone. It's likely that you got noticed
+          in this search, and then someone clicked
+          <span id="mini-like-button" class="round">&uarr; LIKE</span> on your profile!
+        </p>
+        <p class="question">Wait, isn't this just spam or something?</p>
+        <p class="answer">
+          Good question. And an emphatic "No!" probably won't convince you otherwise.
+          But we do invite you to get to know us first:
+        </p>
+        <ul id="not-spam">
+          <li><strong>We're real people on Twitter.</strong> Plenty of Tweeps was
+            started by <%= link_to "@30sleeps", "http://www.twitter.com/30sleeps" %> and
+            <%= link_to "@MarkRainer", "http://www.twitter.com/MarkRainer" %>.</li>
+          <li><strong>We have other sites on the Intertubes.</strong> Brad (30sleeps) writes 
+            a reasonably <%= link_to "popular blog", "http://www.30sleeps.com/blog" %> and
+            Mark (MarkRainer) was previously the founder of <%= link_to "UsedCanada.com", "http://www.usedcanada.com" %>.</li>
+        </ul>
+        <p class="question">Fair enough. So why should I join a Twitter dating site?</p>
+        <p class="answer">
+          Plenty of Tweeps uses Twitter as the platform for a unique and rewarding
+          online dating experience. Here are 10 reasons why Twitter and dating are
+          an awesome combination:
+          <%= render :partial => "welcome/top_ten_reasons", :locals => {:someone_likes_you => true} %>
+          <div style="position: relative; left: 2em; bottom: 0.5em">
+          <%= render :partial => "possible_likes_image_list",
+                     :locals => {:login => @liked_user.login, :users_that_might_like => @users_that_might_like} %>
+          </div>
+          <div style="clear:both"></div>
+        </p>
+        
+        <p style="text-align: center; margin-top: 0.5em; padding-bottom: 0.5em; font-size: 1.5em; font-weight: bold">
+          <%= render :partial => "find_out_who_button" %>
+        </p>
+      </div>
+      
+    </div>
+    <%= google_analytics_js %>
+  </body>
+</html>

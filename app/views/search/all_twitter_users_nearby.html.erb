@@ -1,0 +1,59 @@
+<% @page_title = "Search #{@city_name.mb_chars} Twitter Users - Plenty of Tweeps" %>
+
+<% content_for :sidebar do %>
+
+<%= render :partial => "search/go_to_user" %>
+
+<div id="what-is-this">
+<h3>What is this?</h3>
+<p>You are viewing a list of <strong>everyone</strong> who's tweeted near <%= @city_name %> lately.</p>
+<p>
+  Since this list comes <strong>directly from Twitter</strong>, we can't promise that everyone listed here is single.
+  (Though if you click <strong>I Like This Profile</strong> on their profile, <%= link_to "we'll find out", "http://www.twitter.com/PlentyOfTwps", :target => "_blank" %>. :)</p>
+<p>If you meant to search registered members only, try <%= link_to "this search", search_nearby_path %> instead.</p>
+</div>
+
+<% if @recently_viewed_users.present? %>
+<h3 style="margin-bottom: 1em">Recently Viewed</h3>
+<%= render :partial => "users/recently_viewed_users_listing",
+           :locals => {:users => @recently_viewed_users} %>
+<% end %>
+
+<% if @recently_online_users.present? %>
+<h3 style="margin-bottom: 1em">Recently Online</h3>
+<%= render :partial => "users/sidebar_user_listing",
+           :locals => {:users => @recently_online_users} %>
+<% end %>
+
+<% end %>
+
+<%= render :partial => "sub_navigation_tabs" %>
+
+<div style="margin-top: 1em">
+  <% if flash[:payment_required] %>
+  <%= render :partial => "users/profile_actions_limit_reached",
+             :locals => { :limit_reached_message => flash[:payment_required] } %>
+  <% end %>
+</div>
+
+<div class="funky-status">
+  <p style="text-align: left; padding-left: 0.2em">
+    People tweeting in <span style="color: #4D4D4D"><%= @city_name %></span> lately.
+    <span style="font-size: 0.4em; position: relative; bottom: 0.5em">
+      <%= link_to "change city?", set_location_users_path, :class => "action-link" %>
+    </span>
+  </p>
+</div>
+
+<%= render :partial => "user_listing", :locals => {:matching_users_paginated => @matching_users_paginated} %>
+<% if @matching_users_paginated.total_results_count == 0 %>
+<div id="no-results">
+  <p>Dayam, it looks like there are no results matching your search criteria. :(</p>
+  <p>Admittedly, we're pretty new on the scene. In fact, we're still just two guys sitting around a kitchen table working on this thing.</p>
+  <h4>Other things you can do:</h4>
+  <ul id="suggested-actions">
+    <li><%= link_to "Find your friends on Plenty of Tweeps &rarr;", search_friends_path %></li>  
+    <li><%= link_to "Browse all your friends from Twitter &rarr;", search_all_twitter_friends_path %></li>
+  </ul>
+</div>
+<% end %>

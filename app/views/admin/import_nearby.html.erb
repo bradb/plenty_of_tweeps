@@ -1,0 +1,15 @@
+<%= render :partial => "search/sub_navigation_tabs" %>
+
+<%= render :partial => "admin/user_listing", :locals => {:matching_users_paginated => @matching_users_paginated} %>
+
+<% if @matching_users_paginated.total_results_count == 0 %>
+<div id="no-results">
+  <p>Dayam, it looks like there are no results matching your search criteria. :(</p>
+  <p>Admittedly, we're pretty new on the scene. In fact, we're still just two guys sitting around a kitchen table working on this thing.</p>
+  <h4>Other things you can do:</h4>
+  <ul id="suggested-actions">
+    <li><%= link_to "Find your friends on Plenty of Tweeps &rarr;", search_friends_path %></li>  
+    <li><%= link_to "Browse all your friends from Twitter &rarr;", search_all_twitter_friends_path %></li>
+  </ul>
+</div>
+<% end %>

@@ -1,0 +1,29 @@
+<% @page_title = "Search Your Twitter Friends - Plenty of Tweeps" %>
+
+<%= render :partial => "sub_navigation_tabs" %>
+<% if @matching_users_paginated.has_results? %>
+<div class="info-box">
+  <p>This list includes only your friends on Twitter who have also joined Plenty of Tweeps.
+  If the list seems small, don't worry. We've crunched the numbers, and we expect to
+  have over one <em>beeelllion</em> registered users by this time next year.</p>
+  <ul id="suggested-actions">
+    <li>
+      <%= link_to "Browse all your Twitter friends &rarr;", search_all_twitter_friends_path, :class => "round" %>
+    </li>
+  </p>
+</div>
+<% end %>
+<%= render :partial => "user_listing", :locals => {:matching_users_paginated => @matching_users_paginated} %>
+
+<% if @matching_users_paginated.total_results_count == 0 %>
+<div id="no-results">
+  <p>Looks like none of your friends are on Plenty of Tweeps yet.</p>
+  <h4>Other things you can do:</h4>
+  <ul id="suggested-actions">
+    <li><%= link_to "Browse all your Twitter friends &rarr;", search_all_twitter_friends_path %></li>
+    <li><%= link_to "Tell your friends about Plenty of Tweeps &rarr;",
+            "http://twitter.com/home/?status=RT+%40PlentyOfTweeps+Single%3F+Use+Twitter%3F+Awesome:+http%3A%2F%2Fpotwps.com", :target => "_blank" %></li>
+    <li><%= link_to "Search users in your area &rarr;", search_nearby_path %></li>  
+  </ul>
+</div>
+<% end %>

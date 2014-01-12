@@ -1,0 +1,57 @@
+<% @page_title = "Sent Messages (#{current_user.messages_from.count}) - Plenty of Tweeps" %>
+
+<% content_for :sidebar do %>
+<div>
+  <h3>What is this?</h3>
+  <p>These are all the messages you've sent to other users. These messages
+    are <strong>private</strong>, viewable only by you and the recipient.</p>
+</div>
+<div>
+  <h3>How do I see if a message I sent has been read?</h3>
+  <p>
+    You can find out if a message you sent has been read by its recipient, and
+    gain access to other features, by
+    <%= link_to "upgrading your account", upgrade_account_users_path %>.
+  </p>
+</div>
+<% end %>
+
+<%= render :partial => "inbox_sub_navigation_tabs" %>
+
+<% if current_user.messages_from.present? %>
+<div class="funky-status">
+  You sent these.
+</div>
+
+<% page_num = (params[:page].present? ? params[:page].to_i : 1) %>
+<% @messages = current_user.messages_from.paginate :page => page_num,:per_page => 20 %>
+
+<ul class="message-listing">
+  <% @messages.each do |message| %>
+  <li class="contains-floats">
+    <span class="user-image" style="margin-right: 1em">
+      <%= link_to user_profile_image_tag(message.to_user), show_sent_msg_path(message) %>
+    </span>
+    <span class="message-title">
+      <%= link_to truncate(message.subject, :length => 35), show_sent_msg_path(message) %>
+    </span>
+    <span class="message-from">
+      <%= h message.from_user.login %>
+    </span>
+    <span class="message-age"><%= time_ago_in_words(message.created_at).sub(/less than|about/, "") %> ago</span>
+    <% if current_user.can_see_sent_messages_read? %>
+    <div class="message-read-status">
+      <%= message.to_user.login %> has <%= "not yet" if message.unread? %> read this message.
+    </div>
+    <% end %>
+  </li>
+  <% end %>
+</ul>
+
+<%= will_paginate(@messages, :previous_label => "&laquo; Newer", :next_label => "Older &raquo;") %>
+
+<% else %>
+<div class="funky-status" style="padding: 1em 0em">
+  You've sent no messages.
+</div>
+<% end %>

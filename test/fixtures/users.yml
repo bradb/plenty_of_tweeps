@@ -1,0 +1,52 @@
+# thirty_sleeps:
+#     # twitter_id: 6453492
+#     # login: 30sleeps
+#     gender: M
+#     joined_on: <%= Time.now %>
+#     birth_date: <%= 30.years.ago %>
+#     min_age: 25
+#     max_age: 30
+#     friends_count: 50
+#     followers_count: 230
+#     description: I write about the pursuit of happiness, and the joy of living dangerously.
+#     profile_image_url: http://a1.twimg.com/profile_images/51763742/techno_toque_bigger.jpg
+#     interested_in: F
+#     location: Vancouver, BC
+# 
+# bollenbach:
+#     twitter_id: 14174460
+#     login: bollenbach
+#     gender: M
+#     joined_on: <%= 2.days.ago %>
+#     birth_date: <%= 22.years.ago %>
+#     min_age: 18
+#     max_age: 25
+#     profile_image_url: http://a1.twimg.com/profile_images/59392246/pub_bigger.jpg
+#     interested_in: F
+#     location: Montreal QC
+# 
+# melissa:
+#     twitter_id: 14019082
+#     login: melissa
+#     gender: F
+#     joined_on: <%= 10.days.ago %>
+#     birth_date: <%= 24.years.ago %>
+#     min_age: 24
+#     max_age: 33
+#     description: An uber geek who is obsessed with technology, education, search engines, start-ups, and China. Also in love with @johnerik.
+#     profile_image_url: http://a1.twimg.com/profile_images/125633192/avatar2_bigger.jpg
+#     interested_in: M
+#     location: Hong Kong
+# 
+# SimoneKaminsky:
+#     twitter_id: 39820382
+#     login: SimoneKaminsky
+#     gender: F
+#     joined_on: <%= 12.days.ago %>
+#     birth_date: <%= 28.years.ago %>
+#     min_age: 27
+#     max_age: 33
+#     description: Love design, photography, the ocean, nature, creativity, beauty and  adventure!
+#     profile_image_url: http://a3.twimg.com/profile_images/400101543/Picture_2_bigger.png
+#     interested_in: M
+#     location: Vancouver, BC

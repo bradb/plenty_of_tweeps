@@ -1,0 +1,39 @@
+<%= render :partial => "search/user_listing_pagination", :locals => {:matching_users_paginated => @matching_users_paginated} %>
+
+<div style="clear:both"></div>
+<ul class="user-listing">
+  <% matching_users_paginated.current_page_results.each_with_index do |matching_user,i| %>
+  <% if matching_user.present? %>
+  <li id="user-<%= h i %>" class="contains-floats">
+    <hr />
+    <span class="user-image" style="margin-right: 1em">
+      <%= link_to user_profile_image_tag(matching_user), "http://www.twitter.com/#{h matching_user.login}", :target => "_blank" %>
+    </span>
+    <span class="user-title">
+      <%= link_to matching_user.login, "http://www.twitter.com/#{h matching_user.login}", :target => "_blank", :style => "color: blue" %>
+    </span>
+    <%= render :partial => "admin/male_female", :locals => { :user => matching_user } %>
+    <span class="user-subtitle" style="color: #4D4D4D">
+      <% if matching_user.registered? %>
+      <%= matching_user.age %>, <%= matching_user.gender_display.upcase %>.
+      <% end %>
+      <% if matching_user.location.present? %>
+      <%= matching_user.location.mb_chars.upcase %>.
+      <% end %>
+    </span>
+    
+  <span class="profile-action-buttons">
+    <%= link_to_remote "Ignore", :url => ignore_path(:login => matching_user.login, :index_on_page => i), :method => :post,
+          :html => {:id => "ignore-#{matching_user.login}", :class => "profile-action-button round" } %>
+    <%= link_to_remote "Male", :url => set_gender_path(:login => matching_user.login, :gender => "M", :index_on_page => i), :method => :post,
+          :html => {:id => "set-gender-male-button-#{matching_user.login}", :class => "profile-action-button round" ,:style => "margin-top: 0.4em" } %>
+    <%= link_to_remote "Female", :url => set_gender_path(:login => matching_user.login, :gender => "F", :index_on_page => i), :method => :post,
+          :html => {:id => "set-gender-female-button-#{matching_user.login}", :class => "profile-action-button round" ,:style => "margin-top: 0.4em"} %>          
+  </span>
+    
+  </li>
+  <% end %>
+  <% end %>
+</ul>
+<%= render :partial => "search/user_listing_pagination", :locals => {:matching_users_paginated => @matching_users_paginated} %>
+<div style="clear:both"></div>

@@ -1,0 +1,218 @@
+<% @page_title = "#{h @user.login} on Plenty of Tweeps" %>
+<% @limits_reached = profile_upgrade_account_box_text(current_user) %>
+
+<% content_for :sidebar do %>
+<div id="what-does-like-do">
+  <h3 style="padding-bottom: 0.5em">What happens when I like someone's profile?</h3>
+  <p>When you click <strong>I Like This Profile</strong>, we'll send
+  an anonymous notification to <%= @user.login %> via Twitter.
+  <span style="white-space:nowrap">(<%= link_to "examples", "http://www.twitter.com/PlentyOfTwps", :target => "_blank" %>)</span>
+  </p>
+</div>
+
+<div id="my-twitter-account">
+  <h3>Will this send anything from my Twitter account?</h3>
+  <p>
+    No. Plenty of Tweeps <strong>never</strong> sends anything from your Twitter account, on
+    this, or any other page in the site.
+  </p>
+</div>
+
+<div id="how-they-know">
+  <h3>How does a user see that I liked their profile?</h3>
+  <p>
+    To see who has liked their profile, a user must be <strong>registered</strong> and <strong>logged in</strong>.
+  </p>
+  <p>These requirements are in place to protect your confidentiality.</p>
+</div>
+<% end %>
+
+<%= render :partial => "search/sub_navigation_tabs" %>
+<div style="margin:1em"></div>
+<% if viewing_random_profile? %>
+<div class="random-notice" style="margin-bottom: 1em; padding: 0em 1em">
+  <%= link_to "Next Random User &rarr;", random_profile_users_path, :class => "action-button round", :id => "next-random-btn" %>
+</div>
+<% end %>
+
+<% if request.referrer =~ /\/search\// && request.referrer !~ /go_to_user/ %>
+<div class="back-link"><%= link_to "&larr; Return to search results", "javascript:history.back();" %></div>
+<% end %>
+
+
+<div id="user-profile">
+  <% if @limits_reached %>
+    <%= render :partial => "profile_actions_limit_reached",
+               :locals => { :limit_reached_message => "Your daily limit for #{@limits_reached} has been reached." } %>
+  <% end %>
+  <div id="user-profile-left-column" class="round">
+    <div>
+      <span id="twitter-photo">
+      <% if @user.profile_image_url =~ /default_profile/ %>
+      <%= user_profile_image_tag(@user) %>
+      <% else %>
+      <%= link_to(user_profile_image_tag(@user), @user.profile_image_url_fullsize) %>
+      <% end %>
+      </span>
+      <% unless current_user == @user %>
+        <div id="you-like-this" class="round" style="<%= 'display:none' unless current_user.likes?(@user) %>">
+          <%= image_tag "heart_icon_16.png" %>
+          You like this profile
+        </div>
+        <% num_smiles_sent = current_user.number_of_smiles_sent_to(@user) %>
+        <div id="smiles-sent" class="round" style="<%= 'display: none' unless num_smiles_sent > 0 %>">
+          <%= image_tag "smile_icon_16.png" %>
+          You've sent <span id="smile-count-text" count="<%= num_smiles_sent %>"><%= pluralize(num_smiles_sent, "smile") %></span>
+        </div>
+      <% end %>
+    </div>
+    <div id="login">
+      <%= link_to @user.login, "http://twitter.com/#{h @user.login}", :target => "_blank" %>
+    </div>
+    <div id="bio-details">
+      <% if @user.registered? %>
+      <%= @user.age %>, <%= @user.gender_display.capitalize %><br />
+      Interested in: <%= @user.interested_in_formal_display.capitalize %><br />
+      <% if @user.city_name.present? %>
+      <%= @user.city_name %>, <%= @user.country_display %>
+      <% else %>
+      <%= @user.location if @user.location.present? %>
+      <% end %>
+      <% else %>
+      <%= @user.location if @user.location.present? %>
+      <% end %>
+      <% if @user.url.present? %>
+      <div id="url">
+        <%= link_to truncate(@user.url, :length => 30), @user.url, :target => "_blank" %>
+      </div>
+      <% end %>
+    </div>
+    
+    <div id="twitter-bio">
+      <%= h @user.description %>
+    </div>
+    <div id="follow-counts">
+      <div id="following-count">
+        <span class="count"><%= number_with_delimiter(@user.friends_count) %></span><br/>
+        <span class="count-label">following</span>
+      </div>
+      <div class="count-separator">:</div>
+      <div id="followers-count">
+        <span class="count"><%= number_with_delimiter(@user.followers_count) %></span><br/>
+        <span class="count-label">followers</span>
+      </div>
+    </div>
+    <% if logged_in? %>
+    <div id="follow-button-container">
+      <% if current_user.follows?(@user) %>
+        <%= render :partial => "unfollow_button", :locals => {:login => @user.login}  %>
+      <% else %>
+        <%= render :partial => "follow_button", :locals => {:login => @user.login}  %>
+      <% end %>
+    </div>
+    <% end %>
+    <div style="clear:both"></div>
+  </div>
+  <div id="user-profile-right-column">
+    <% unless current_user == @user %>
+    <div class="action-buttons">
+      <% unless current_user.likes?(@user) %>
+        <%= link_to_remote "#{image_tag('heart_icon_16.png')} I Like This Profile",
+            :url => like_user_path(@user), :method => :post,
+            :html => {:id => "like", :class => current_user.daily_like_profile_limit_reached? ? "disabled" : "",
+                      :title => "Anonymously notifies @#{@user.login}. They must log in to see who likes their profile."} %>
+      <% end %>
+      <% unless current_user.has_sent_an_unseen_smile_to?(@user) %>
+      <span id="smile-button-container">
+        <%= link_to_remote "#{image_tag('smile_icon_16.png')} Send a Smile",
+            :url => send_smile_user_path(@user),
+            :html => { :id => "smile", :class => current_user.daily_smile_limit_reached? ? "disabled" : "",
+                       :title => "Anonymously notifies @#{@user.login}. They must log in to see who sent them a smile." } %>
+      </span>
+      <% end %>
+      <%= link_to "#{image_tag('message_bubble_icon_16.png')} Message", send_msg_to_path(:login => @user.login),
+                  :id => "message", :title => "Send a private message.",
+                  :class => current_user.daily_message_limit_reached? ? "disabled" : "" %>
+    </div>
+    <% end %>
+    <% if @user.photos.count > 0 %>
+      <%= render :partial => "uploaded_photos_list_small", :locals => {:photos => @user.photos, :show_delete => false } %>
+    <% end %>
+    <div id="extended-bio">
+      <h4 style="margin: 0.2em 0 0 0; padding: 0">ABOUT</h4>
+      <% if @user.extended_bio.present? %>
+      <%= simple_format h(@user.extended_bio) %>
+      <% else %>
+      <p><%= @user.login %> has not written a bio.</p>
+      <% end %>
+    </div>
+    
+    <div>
+      <div id="tweet-header">
+        @<%= @user.login.upcase %> ON TWITTER
+      </div>
+      <% if @latest_tweets.present? %>
+      <ul id="latest-tweets">
+      <% @latest_tweets.each do | latest_tweet | %>
+      <li>
+        <%= auto_link_twitter_text(latest_tweet["text"]) %><br />
+      </li>
+      <li class="tweet-age">
+        <%= time_ago_in_words(Time.parse(latest_tweet["created_at"])).sub(/about|less than/, "").upcase %> AGO
+      </li>
+      <% end %>
+      </ul>
+      <% else %>
+      <p style="text-align: center"><%= @user.login %> has not tweeted or has protected their tweets.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <div style="clear:both"></div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("a[rel=user_image_group]").fancybox({
+        'transitionIn'    : 'elastic',
+        'transitionOut'   : 'elastic',
+        'titleShow'       : false,
+      });
+    $('#twitter-photo a').  fancybox({
+          'transitionIn'    : 'elastic',
+          'transitionOut'   : 'elastic',
+          'titleShow'       : false,
+      });
+      
+    $('.action-buttons a').tipsy({ delayIn: 250, gravity: 's', fade: true, opacity: 0.85 });
+
+    $('.action-buttons #like').button();
+    $('.action-buttons #smile').button();
+    $('.action-buttons #message').button();
+    
+    $('#upgrade-account').button();
+    
+    $('.action-buttons #like').mouseup(function() {
+      $(this).fadeOut('normal', function() {
+        $('#you-like-this').slideDown('normal');
+      });
+    });
+    
+    $('#smile').mouseup(function() {
+      $(this).fadeOut('normal', function() {
+        var current_smile_count = parseInt($('#smile-count-text').attr('count')) + 1;
+        var smile_count_text = current_smile_count == 1 ? "1 smile" : current_smile_count + " smiles";
+        $('span#smile-count-text').html(smile_count_text);
+        if ($('#smiles-sent').is(':hidden')) {
+          $('#smiles-sent').slideDown('normal');
+        } else {
+          $('#smiles-sent').effect("pulsate", {times: 3}, 400);
+        }
+      });
+    });
+    
+    $('.action-buttons a.disabled').css('opacity', 0.4);
+    $('.action-buttons a.disabled').unbind();
+    
+  })
+</script>

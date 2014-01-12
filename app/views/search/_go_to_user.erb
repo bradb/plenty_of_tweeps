@@ -1,0 +1,26 @@
+<h3>Go To User</h3>
+<% form_tag "/whatever", :id => "go-to-user" do %>
+<%= text_field_tag "go_to_login", "", :id => "go-to-user-autocomp" %>
+</fieldset>
+<div class="action-buttons">
+  <%= submit_tag "Go", :id => "go" %>
+</div>
+<% end %>
+
+<% content_for :header  do %>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $('#go').button();
+    $.get('<%= screen_name_autocomplete_source_users_path %>', function(data) {
+      $('#go-to-user-autocomp').autocomplete({source: data});
+    });
+    $('#go-to-user').submit(function() {
+      var selected_user = $('#go-to-user-autocomp').val();
+      if (selected_user.length > 0) {
+        window.location = '/users/' + selected_user;
+      }
+      return false;
+    });
+  })
+</script>
+<% end %>

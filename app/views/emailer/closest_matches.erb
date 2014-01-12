@@ -1,0 +1,43 @@
+<table>
+<tr><td></td></tr>
+</table>
+
+<table>
+<tr><td colspan="2">Hey <%= @to_user.login %>,<br />
+<br />
+After running a super complicated algorithm to find your matches we came back with the following users you may be interested in:
+</td>
+</tr>
+<tr><td><hr /></td></tr>
+<% @matched_users.each_with_index do |matched_user,i| %>
+<%= cycle("<tr>", "", "") %>
+<td><b>User: <%= matched_user.login %></b><br />
+Age : <%= matched_user.age %><br />
+Location : <%= matched_user.location %><br />
+<a href="<%= user_url(matched_user) %>">
+<%= image_tag(matched_user.profile_image_url,
+          :onError => "jQuery.ajax({data:'username_with_broken_image=' + encodeURIComponent('#{matched_user.login}') + '&image_id=' + encodeURIComponent('#{i}'), dataType:'script', type:'post', url:'/users/fix_profile_image_url'}); return false;",
+          :id => "user-image-#{i}",
+          :class => "user-image") %></a><br />
+<hr /></td>
+<%= cycle("", "", "</tr>") %>
+<% end %>
+
+<% for i in (0 .. (@matched_users.length % 3))%>
+  <td></td>
+<% end %>
+
+<% if (@matched_users.length % 3) != 0 %>
+  </tr>
+<% end %>
+
+</table>
+
+<table>
+<tr><td>Thanks for using PlentyOfTweeps.com!<br />
+Brad and Mark<br />
+<br />
+--<br />
+This message was sent to <%= @to_user.email %>. You can view and change your Plenty of Tweeps email notification settings at: <%= link_to "Email Notifications", email_settings_users_url %><br />
+</td></tr>
+</table>

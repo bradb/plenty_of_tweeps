@@ -1,0 +1,21 @@
+<% if matching_locations.present? %>
+<label style="margin-left: 0.3em">Matching Locations</label>
+<ul id="matching-locations-list">
+  <% matching_locations.each do |location| %>
+  <% zip = location.zip.present? ? "#{location.zip} - " : "" %>
+  <li><%= link_to_remote "#{image_tag('world_icon_16.png', :class => 'icon-16')} #{zip}#{location.city}, #{location.state_code}, #{location.country_code}",
+                         :url => set_location_users_url(:location => {:lat => location.lat,
+                                                                      :lng => location.lng,
+                                                                      :postal_code => location.zip,
+                                                                      :city_name => location.city,
+                                                                      :country_code => location.country_code, 
+                                                                      :prov_state_code => location.state_code}),
+          :method => :post %></li>
+  <% end %>
+</ul>
+<script type="text/javascript" charset="utf-8">
+  $('ul#matching-locations-list li a').button();
+</script>
+<% else %>
+<label style="margin-left: 0.1em">No locations match '<%= search_text %>'.</label>
+<% end %>

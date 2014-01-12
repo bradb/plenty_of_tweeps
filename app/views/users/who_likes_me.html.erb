@@ -1,0 +1,54 @@
+<% @page_title = "Who Likes My Profile (#{current_user.who_likes_me_count})" %>
+
+<%= render :partial => "users/who_likes_me_sub_navigation_tabs" %>
+
+<% if current_user.mutual_admirers.present? %>
+<div class="info-box">
+  <p>Here's who you like, who also likes <em>you</em>. Pardon us for pointing out the obvious,
+    but that's generally a Very Good Thing.</p>
+  <p>But hey, no pressure.</p>
+</div>
+
+<ul id="user-listing" summary="User Listing">
+  <% current_user.mutual_admirers.each do | matching_user | %>
+    <li id="user-<%= h matching_user.login %>">
+      <% i_like_this_user = current_user.likes?(matching_user) %>
+      <span class="user-image">
+        <%= link_to user_profile_image_tag(matching_user.profile_image_url), "/users/#{h matching_user.login}", :class => "user-image" %>
+      </span>
+      <span class="user-info">
+        <span class="user-title">
+          <%= link_to matching_user.login, "/users/#{h matching_user.login}" %>
+          <% if matching_user.registered? %>
+          <%= h matching_user.age %> years old,
+          <% end %>
+          <%= h matching_user.city_name %>
+        </span>
+          
+          <span class="user-buttons">
+            <span id="action-button-container">
+              <%= link_to "Send Message", "#", :style => "clear:right; margin-bottom: 1em; width: 9.5em", :class => "action-button round" %>
+              <%= link_to "Follow on Twitter", "#", :style => "clear:right; margin-bottom: 1em; width: 9.5em", :class => "action-button round" %>
+            </span>
+          </span>
+          <br />
+        <p class="user-description"><%= h matching_user.description %></p>
+      </span>
+      <div style="clear:both"></div>
+    </li>
+  <% end %>
+</ul>
+<% else %>
+<div class="funky-status">
+<p>Nobody likes you.</p>
+<p>Er, that came out wrong.</p>
+</div>
+<div id="no-results" style="margin-left: -0.5em">
+  <h4>Other things you can do:</h4>
+  <ul id="suggested-actions">
+    <li><%= link_to "Browse your Twitter friends &rarr;", search_all_twitter_friends_path %></li>
+    <li><%= link_to "Tell your friends about Plenty of Tweeps &rarr;",
+            "http://twitter.com/home/?status=RT+%40PlentyOfTweeps+Single%3F+Use+Twitter%3F+Awesome:+http%3A%2F%2Fpotwps.com", :target => "_blank" %></li>
+    <li><%= link_to "Search users in your area &rarr;", search_nearby_path %></li>
+  </ul>
+<% end %>

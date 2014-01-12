@@ -1,0 +1,65 @@
+<% @page_title = "Inbox (#{current_user.all_unread_messages_count}) - Plenty of Tweeps" %>
+
+<% content_for :sidebar do %>
+<div id="what-is-this" style="padding-bottom: 0">
+<h3>What is this?</h3>
+<p>This is your message Inbox. These messages are always <strong>private</strong>, viewable only by you and the user
+  that sent it.</p>
+</div>
+
+<div style="padding-bottom: 0.5em">
+<h3>How do I send a message?</h3>
+  <p>
+    To send a message to someone, you can either <strong>click Reply</strong> on a 
+    message from them, or <%= link_to "jump to their profile", go_to_user_path %> and
+    click Send Message.
+  </p>
+</div>
+
+<%= render :partial => "search/newest_members" %>
+
+<% end %>
+
+<%= render :partial => "inbox_sub_navigation_tabs" %>
+
+<% if flash[:notice].present? %>
+<div class="notice round" style="margin: 1em 0em 0.5em 0em">
+  <ul>
+    <li><%= flash[:notice] %></li>
+  </ul>
+</div>
+<% end %>
+
+<% if current_user.visible_messages_to.present? %>
+<div class="funky-status">
+  <%= current_user.unread_messages.count %> unread.
+  <%= current_user.visible_messages_to.count %> total.
+</div>
+
+<% page_num = (params[:page].present? ? params[:page].to_i : 1) %>
+<% @messages = current_user.visible_messages_to.paginate :page => page_num,:per_page => 20 %>
+
+<ul class="message-listing">
+  <% @messages.each do |message| %>
+  <li class="<%= message.unread? ? 'unread' : 'read' %> contains-floats">
+    <span class="user-image" style="margin-right: 1em">
+      <%= link_to user_profile_image_tag(message.from_user), message_path(message) %>
+    </span>
+    <span class="message-title">
+      <%= link_to truncate(message.subject, :length => 30), message_path(message) %>
+    </span>
+    <span class="message-from">
+      <%= h message.from_user.login %>
+    </span>
+    <span class="message-age"><%= time_ago_in_words(message.created_at).sub(/less than|about/, "") %> ago</span>
+  </li>
+  <% end %>
+</ul>
+
+<%= will_paginate(@messages, :previous_label => "&laquo; Newer", :next_label => "Older &raquo;") %>
+
+<% else %>
+<div class="funky-status" style="padding: 1em 0em">
+  <div>You have no messages. :(</div>
+</div>
+<% end %>

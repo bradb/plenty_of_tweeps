@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en-US">
+  <head>
+    <title>
+      <% @page_title ||= "Plenty of Tweeps - Single? Use Twitter? Awesome." %> <%= @page_title %>
+    </title>
+    <%= stylesheet_link_tag "potweeps" %>
+    <%= javascript_include_tag "jquery-1.4.2.min.js" %>
+    <%= javascript_include_tag "jquery-ui-1.8.custom.min.js" %>
+    <%= stylesheet_link_tag "smoothness/jquery-ui-1.8.custom.css" %>
+    
+    <meta name="description" content="A Dating Site for Twitter Users" />
+    <meta name="keywords" content="Social Network, Social Media, Social Messaging, Microblogs, Twitter, Facebook, Communication, Collaboration, Business, Enterprise" />
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $('#user_email').focus();
+        $('button[type=submit]').button();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="pre-header-container"></div>
+    <div id="header-container">
+      <div id="header">
+        <span id="logo"><%= link_to "plenty of tweeps", root_path %></span> <% if false %> <span id="retweet"><script type="text/javascript">
+  //<![CDATA[
+         tweetmeme_url = 'http://plentyoftweeps.com';
+         tweetmeme_source = 'PlentyOfTweeps';
+  //]]>
+</script> <script type="text/javascript" src="http://tweetmeme.com/i/scripts/button.js">
+</script></span> <% end %>
+      </div>
+      <div style="clear:both"></div>
+    </div>
+    <div style="width: 940px; margin: 0 auto;">
+      <div id="main-content">
+        <div class="notice round" style="margin: 0.7em 0 1em 0em">
+          <ul>
+            <li>You successfully logged in via Twitter. Almost ready to rock.</li>
+          </ul>
+        </div>
+        <div style="text-align: center">
+        <div id="signup-container" class="round">
+          <% if current_user.errors.present? %>
+          <div class="errors round">
+            <ul>
+              <% current_user.errors.each_full do |err_msg| %>
+              <li>
+                <%= err_msg %>
+              </li><% end %>
+            </ul>
+          </div><% end %>
+          <% form_for current_user, :url => setup_users_path, :id => "signup", :html => { :method => :post } do | f | -%>
+          <%= f.hidden_field :min_age %>
+          <%= f.hidden_field :max_age %>
+          <div>
+            <fieldset>
+              <div class="data">
+                <%= f.label :email %>
+                <div class="ctn_input">
+                  <%= f.text_field :email %> <div class="signup-help">Your email is never shown to anyone.</div>
+                </div>
+              </div>
+              <div class="data">
+                <%= f.label :birth_date %>
+                <div class="ctn_input">
+                  <%= f.date_select :birth_date, :start_year => 1900, :end_year => Time.now.year - 18, :default => 25.years.ago  %> <div class="signup-help">You must be 18 or older to use this site.</div>
+                </div>
+              </div>
+              <div class="data">
+                <%= f.label :gender, "I am a" %>
+                <div class="ctn_input">
+                  <%= f.select :gender, [["Guy", "M"], ["Girl", "F"]] %>
+                </div>
+              </div>
+              <div class="data">
+                <%= f.label :interested_in, "Interested in" %>
+                <div class="ctn_input">
+                  <%= f.select :interested_in, [["Guys", "M"], ["Girls", "F"]] %>
+                </div>
+              </div>
+              <button type="submit">
+                Continue <%= image_tag('rarr_icon_16.png', :style => "position: relative; top: 1px") %>
+              </button>
+              <div class="signup-help">This does not send any tweets, auto-follows, etc.</div>
+            </fieldset>
+          </div><% end %>
+        </div>
+        <div style="clear:both;"></div>
+        </div>
+      </div>
+    </div>
+    <div id="sidebar">
+      <%= render :partial => "search/newest_members" %>
+    </div>
+    <div style="clear:both"></div><%= render :partial => "welcome/footer" %><%= google_analytics_js %>    
+  </body>
+</html>

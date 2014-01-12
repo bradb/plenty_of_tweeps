@@ -1,0 +1,9 @@
+<div id="profile-actions-limit-reached">
+  <div class="description">
+    <%= image_tag("info_icon_48.png", :style => "float: left; margin-right: 0.5em") %>
+    <%= limit_reached_message %>
+  </div>
+  <div id="upgrade-button-container">
+    <%= link_to image_tag("upgrade_account.png"), upgrade_account_users_path %>
+  </div>    
+</div>

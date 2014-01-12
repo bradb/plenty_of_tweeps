@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <body style="font-family: Arial,Helvetica,sans-serif; color: #2e2e2e;">
+    Hi <%= @to_user.login %>!
+
+    <p>
+      Based on the search preferences you've set in your profile
+      <strong>(<%= @to_user.interested_in_formal_display %> near <%= @to_user.city_name %>, age <%= @to_user.min_age %> to <%= @to_user.max_age %>)</strong>, we thought<br />
+      the following Plenty of Tweeps users might interest you.
+    </p>
+
+    <ul class="matching-users" style="list-style: none; width: 50em; margin-left: -2.5em;">
+      <% @matching_users.each do |user| %>
+      <li style="background-color: #E6E9E3; color: #2e2e2e; padding: 1em; -webkit-border-radius: 5px; -moz-border-radius: 5px;
+                 width: 200px; height: 11em; margin: 0 10px 10px 0; border: 1px solid #DDD;
+                 float: left;">
+        <div class="user">
+          <div class="user-left-col" style="float: left; width: 85px;">
+            <%= link_to(image_tag(user.profile_image_url, :style => "border: none; height: 73px; width: 73px"), user_url(user)) %>
+          </div>
+          <div class="user-right-col">
+            <div class="username">
+              <%= link_to(user.login, user_url(user), :style => "font-weight: bold; text-decoration: none") %>
+            </div>
+            <div class="details">
+              <%= user.age %><%= user.gender %>, <%= user.city_name %>
+            </div>
+          </div>
+          <div class="bio" style="clear: both; padding-top: 0.5em; color: #898989">
+            <% if user.description.present? %>
+              <%= truncate(user.description, :length => 60) %>
+            <% elsif user.extended_bio.present? %>
+              <%= truncate(user.extended_bio, :length => 60) %>
+            <% else %>
+              <%= user.login %> has not written a bio.
+            <% end %>
+          </div>
+          <div style="clear:both; padding-top: 0.5em">
+            <%= link_to "View profile...", user_url(user) %>
+          </div>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+    <div style="clear:both">
+      <p>--<br/>
+        This message was sent to <%= @to_user.email %>. You can view and change your Plenty of Tweeps email notification settings at: <%= email_settings_users_url %></p>
+    </div>    
+  </body>
+</html>

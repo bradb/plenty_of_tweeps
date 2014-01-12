@@ -1,0 +1,9 @@
+Hi <%= @target_user.login %>,
+
+Someone on Plenty of Tweeps just sent you a smile!
+
+You can find out who here:
+<%= recent_activity_url %>
+
+--
+This message was sent to <%= @target_user.email %>. You can view and change your Plenty of Tweeps email notification settings at: <%= email_settings_users_url %>

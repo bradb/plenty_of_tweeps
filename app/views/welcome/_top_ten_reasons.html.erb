@@ -1,0 +1,58 @@
+<% if local_assigns[:someone_likes_you].nil? %>
+<% someone_likes_you = false %>
+<% end %>
+
+<ol id="top-ten">
+  <li>
+    <strong>Twitter users are a unique bunch.</strong> Twitter users
+    tend to be well-educated, self-motivated, doers of interesting things.
+    Sure, we're generalizing a bit, but it's hard to deny that Twitter
+    appeals most to certain kinds of people.
+  </li>
+  <li>
+    <strong>Twitter gives you a unique window into someone's life.</strong>
+    A user's Twitter activity stream can tell you far more about what that
+    person is <em>really</em> like than some stock "long walks on the beach"
+    online dating profile.
+  </li>
+  <li>
+    <strong>You can "like" anyone on Twitter.</strong> Including anyone
+    from the single Twitterers near you to your favorite musicians, actors,
+    writers, athletes and other fascinating people.
+  </li>
+  <li>
+    <strong>You can get to know your friends and followers better.</strong>
+    Twitter's 140 character limit makes deeper conversations impossible. Plenty
+    of Tweeps' messaging system lets you have feature-length interactions.
+  </li>
+  <li>
+    <strong>We're focussed on usability.</strong> Our goal is to offer the most
+    user-friendly online dating experience on the web.
+  </li>
+  <li>
+    <strong>You login with your existing Twitter account.</strong> 
+    No need to think of another username and password.
+  </li>
+  <li>
+    <strong>We don't send anything from your Twitter account.</strong> We use our own
+    account to send Twitter notifications.
+  </li>
+  <li>
+    <strong>We're a small, self-funded company with a human face.</strong>
+      We're <%= link_to "30sleeps", "http://www.twitter.com/30sleeps" %> and
+      <%= link_to "MarkRainer", "http://www.twitter.com/MarkRainer" %> on
+      Twitter, and we'd love to hear from you. :)
+  </li>
+  <li>
+    <strong>You can always change your mind.</strong> If you try out
+    the site and decide it's not for you, no problem. Just shoot us
+    an email and we'll be happy to remove your account.
+  </li>
+  <li>
+    <% if someone_likes_you == true %>
+    <strong>One of these users likes you!</strong> And by joining, you'll find out who it is.
+    <% else %>
+    <strong>Our users are awesome.</strong> Here are just some of the people you'll gain access to by joining.
+    <% end %>
+  </li>
+</ol>

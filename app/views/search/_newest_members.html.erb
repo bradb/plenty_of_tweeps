@@ -1,0 +1,11 @@
+<% hide_header = false if local_assigns[:hide_header].nil? %>
+<% num_members_to_show = 15 if local_assigns[:num_members_to_show].nil? %>
+
+<% unless hide_header %>
+<h3 style="margin-bottom: 1em">Newest Members</h3>
+<% end %>
+
+<% cache "newest-members-#{num_members_to_show}", :expires_in => 10.minutes do %>
+<%= render :partial => "users/sidebar_user_listing",
+           :locals => {:users => User.find_newest(:limit => num_members_to_show)} %>
+<% end %>

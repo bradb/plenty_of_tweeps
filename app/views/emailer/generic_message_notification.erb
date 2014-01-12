@@ -1,0 +1,9 @@
+Hey <%= @to_user.login %>,
+
+Someone on Plenty of Tweeps sent you a message.
+
+You can view all your messages at:
+<%= messages_url %>
+
+--
+This message was sent to <%= @to_user.email %>. You can view and change your Plenty of Tweeps email notification settings at: <%= email_settings_users_url %>

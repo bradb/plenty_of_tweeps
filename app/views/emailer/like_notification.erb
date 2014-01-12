@@ -1,0 +1,9 @@
+Hi <%= @liked_user.login %>,
+
+Someone on Plenty of Tweeps just liked your profile!
+
+You can find out who here:
+<%= who_likes_me_all_users_url %>
+
+--
+This message was sent to <%= @liked_user.email %>. You can view and change your Plenty of Tweeps email notification settings at: <%= email_settings_users_url %>

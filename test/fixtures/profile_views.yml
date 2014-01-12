@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  viewed_by_user_id: 1
+  seen_user_id: 1
+  deleted: 1
+
+two:
+  viewed_by_user_id: 1
+  seen_user_id: 1
+  deleted: 1

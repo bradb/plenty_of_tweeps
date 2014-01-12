@@ -1,0 +1,44 @@
+<% if current_user == @message.to_user %>
+<% @page_title = "From #{h @message.from_user.login}: #{h @message.subject}" %>
+<% elsif current_user == @message.from_user %>
+<% @page_title = "To #{h @message.to_user.login}: #{h @message.subject}" %>
+<% end %>
+
+<% content_for :header do %>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $('a#reply-button').button();
+  });
+</script>
+<% end %>
+
+<%= render :partial => "inbox_sub_navigation_tabs" %>
+
+<% if current_user == @message.from_user %>
+<div class="funky-status">
+You sent this to <%= h @message.to_user.login %>.
+</div>
+<% end %>
+
+<div class="message contains-floats">
+  <div class="contains-floats">
+  <span class="user-image" style="margin-right: 1em">
+    <%= link_to user_profile_image_tag(@message.from_user), message_path(@message), :style => "float: left" %>
+  </span>
+  <span class="message-title">
+    <%= h @message.subject %>
+  </span>
+  <span class="message-from">
+    <%= link_to @message.from_user.login, "/users/#{h @message.from_user.login}" %>
+  </span>
+  <span class="message-age">
+    <%= time_ago_in_words(@message.created_at).sub(/less than|about/, "") %> ago
+  </span>
+  </div>
+  <div class="message-body round">
+    <%= auto_link_twitter_text(simple_format(h(@message.body))) %>
+  </div>
+  <% unless current_user == @message.from_user %>
+  <%= link_to "#{image_tag('reply_icon_16.png', :class => 'icon-16')} Reply", send_msg_to_path(:login => @message.from_user.login, :message => {:subject => reply_subject(@message.subject)}), :id => "reply-button" %>
+  <% end %>
+</div>

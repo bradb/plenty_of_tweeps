@@ -1,0 +1,9 @@
+Hi <%= @smile_sender.login %>,
+
+Someone you sent a smile to, <%= @smile_recipient.login %>, has just joined Plenty of Tweeps!
+
+You can view <%= @smile_recipient.his_or_her %> profile here:
+<%= user_url(@smile_recipient) %>
+
+--
+This message was sent to <%= @smile_sender.email %>. You can view and change your Plenty of Tweeps email notification settings at: <%= email_settings_users_url %>

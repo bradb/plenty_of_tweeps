@@ -1,0 +1,12 @@
+<ul id="user-photos-uploaded" class="contains-floats">
+  <% photos.each do |photo| %>
+  <li class="<%= cycle('left-image', 'right-image') %>">
+    <%= image_tag photo.data.url(:thumb), :alt => "" %>
+    <% if show_delete %>
+    <%= link_to 'Delete', manage_photos_users_path + "/" + photo.id.to_s,
+                              :method => :delete,
+                              :confirm => "Are you sure you want to delete this photo?",
+                              :class => "delete-photo" %>
+    <% end %>
+  </li><% end %>
+</ul>

@@ -1,0 +1,82 @@
+<% @page_title = "Search #{current_user.city_name.mb_chars} Singles - Plenty of Tweeps" %>
+
+<% content_for :header do %>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $('button[type=submit]').button();
+  })
+</script>
+<% end %>
+
+<% content_for :sidebar do %>
+<div id="what-is-this">
+<h3>What is this?</h3>
+<p>You are searching the list of <strong>registered members</strong> near <%= current_user.location %>.</p>
+<p>
+  If you see someone interesting, just click <strong>I Like This Profile</strong> on their profile, and we'll send them a notification either <%= link_to "on Twitter", "http://www.twitter.com/PlentyOfTwps", :target => "_blank" %>, or via email if they provided their address.</p>
+<p><strong>Want more results?</strong> Try <%= link_to "this search", search_all_twitter_users_nearby_path %> instead.</p>
+</div>
+
+<% if @recently_viewed_users.present? %>
+<h3 style="margin-bottom: 1em">Recently Viewed</h3>
+<%= render :partial => "users/recently_viewed_users_listing",
+           :locals => {:users => @recently_viewed_users} %>
+<% end %>
+
+<% if @recently_online_users.present? %>
+<h3 style="margin-bottom: 1em">Recently Online</h3>
+<%= render :partial => "users/sidebar_user_listing",
+           :locals => {:users => @recently_online_users} %>
+<% end %>
+
+<% end %>
+
+<%= render :partial => "sub_navigation_tabs" %>
+
+<% form_for @search_user, :url => search_nearby_path, :html => { :method => :get, :id => "search-nearby-frm", :class => "round" } do |f| %>
+  <fieldset style="margin-right: 0em; padding-right: 0">
+    <div class="data">
+      <%= f.label :gender, "I'm a" %>
+      <div class="ctn_input">
+        <%= f.select :gender, [["Guy", "M"], ["Girl", "F"]] %>
+      </div>
+    </div>
+    <div class="data">
+      <%= f.label :interested_in, "Interested in" %>
+      <div class="ctn_input">
+        <%= f.select :interested_in, [["Guys", "M"], ["Girls", "F"]] %>
+      </div>
+    </div>
+    <div class="data">
+      <%= f.label :min_age, "Between ages" %>
+      <div class="ctn_input">
+        <%= f.select :min_age, 18..99 %> and
+        <%= f.select :max_age, 18..99 %>
+      </div>
+    </div>
+    <div class="data">
+      <%= f.label :location, "Located near" %>
+      <div>
+        <%= link_to truncate(current_user.location, :length => 17), set_location_users_url %>
+      </div>
+    </div>
+    <button type="submit" id="search-button">
+      <%= image_tag "search_icon_16.png", :style => "position: relative; top: 0.1em" %>
+      Search
+    </button>
+  </fieldset>
+<% end %>
+
+<%= render :partial => "user_listing", :locals => {:matching_users_paginated => @matching_users_paginated} %>
+
+<% if @matching_users_paginated.total_results_count == 0 %>
+<div id="no-results">
+  <p style="font-size: 1.5em"><strong style="color: #2E2E2E">Dayam, no users matched your search criteria. :(</strong></p>
+  <p style="font-size: 1.5em">
+    <strong>
+    <%= link_to "Search all Twitter users nearby &rarr;",
+        search_all_twitter_users_nearby_path, :class => "action-link" %>
+    </strong>
+  </p>
+</div>
+<% end %>

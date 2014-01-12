@@ -1,0 +1,23 @@
+<% users = local_assigns[:users] || [] %>
+
+<ul class="sidebar-user-listing">
+  <% users.each do | user | %>
+  <li>
+    <%= link_to user_profile_image_tag(user), user_path(user) %>
+    <div style="float: left: display: inline-block; color: #A49999">
+      <span class="username">
+        <%= link_to "#{user.login}", user_path(user) %>
+      </span>
+      <span class="details">
+        <%= user.age %><%= user.gender %>,
+        <% if user.city_name.present? %>
+          <%= user.city_name %>
+        <% else %>
+          Location Unknown
+        <% end %>
+      </span>
+    </div>
+    <div style="clear:both"></div>
+  </li>
+  <% end %>
+</ul>

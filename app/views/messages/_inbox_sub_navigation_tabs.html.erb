@@ -1,0 +1,10 @@
+<div id="sub-navigation-tabs">
+  <ul>
+    <% inbox_subnav_tab_links.each do | tab_link | %>
+      <li>
+        <%= link_to tab_link[:text], tab_link[:url_path],
+                    :class => "round #{'selected' if tab_link[:selected]}" %>
+      </li>
+    <% end %>
+  </ul>
+</div>

@@ -1,0 +1,150 @@
+<% @page_title = "Upgrade Account - Plenty of Tweeps" %>
+
+<%= render :partial => "profile_sub_navigation_tabs" %>
+<div id="non-results-content">
+  <h2>Upgrade Your Account</h2>
+  <p>
+    By upgrading your account, you can increase your limits for sending messages
+    and smiles, liking profiles, and uploading photos. You'll also gain access to
+    additional features that make it even easier and more enjoyable to connect with
+    cool Twitter peeps.
+  </p>
+  
+  <table id="account-types">
+    <tr>
+      <th></th>
+      <th class="at-name">
+        <div class="name">Basic</div>
+        <div class="price">Free</div>
+        <div class="desc">For Having a Look Around</div>
+      </th>
+      <th class="at-name">
+        <div class="name">Plus</div>
+        <div class="price">$<%= "%.2f" % CONNECTOR.price %>/month</div>
+        <div class="desc">For Getting to Know People</div>
+      </th>
+      <th class="at-name">
+        <div class="name">Premium</div>
+        <div class="price">$<%= "%.2f" % SOCIAL_SKYDIVER.price %>/month</div>
+        <div class="desc">For Finding Your Best Match</div>
+      </th>
+    </tr>
+    <tr>
+      <td class="feature-label">Smiles (per day)</td>
+      <td><%= INTROVERT.daily_smile_limit %></td>
+      <td><%= CONNECTOR.daily_smile_limit %></td>
+      <td><%= SOCIAL_SKYDIVER.daily_smile_limit %></td>
+    </tr>
+    <tr>
+      <td class="feature-label">Messages (per day)</td>
+      <td><%= INTROVERT.daily_message_limit %></td>
+      <td><%= CONNECTOR.daily_message_limit %></td>
+      <td><%= SOCIAL_SKYDIVER.daily_message_limit %></td>
+    </tr>
+    <tr>
+      <td class="feature-label">Liked profiles (per day)</td>
+      <td><%= INTROVERT.daily_like_profile_limit %></td>
+      <td><%= CONNECTOR.daily_like_profile_limit %></td>
+      <td><%= SOCIAL_SKYDIVER.daily_like_profile_limit %></td>      
+    </tr>
+    <tr>
+      <td class="feature-label">Photo uploads (total)</td>
+      <td><%= INTROVERT.photo_upload_limit %></td>
+      <td><%= CONNECTOR.photo_upload_limit %></td>
+      <td><%= SOCIAL_SKYDIVER.photo_upload_limit %></td>      
+    </tr>
+    <tr>
+      <td class="feature-label">Search registered members nearby</td>
+      <td><%= show_checkmark_if true %></td>
+      <td><%= show_checkmark_if true %></td>
+      <td><%= show_checkmark_if true %></td>
+    </tr>
+    <tr>
+      <td class="feature-label">Search all Twitter users nearby</td>
+      <td><%= show_checkmark_if true %></td>
+      <td><%= show_checkmark_if true %></td>
+      <td><%= show_checkmark_if true %></td>
+    </tr>
+    <tr>
+      <td class="feature-label">See who's liked my profile</td>
+      <td><%= show_checkmark_if true %></td>
+      <td><%= show_checkmark_if true %></td>
+      <td><%= show_checkmark_if true %></td>
+    </tr>    
+    <tr>
+      <td class="feature-label">See who's sent me a smile</td>
+      <td><%= show_checkmark_if true %></td>
+      <td><%= show_checkmark_if true %></td>
+      <td><%= show_checkmark_if true %></td>
+    </tr>    
+    <tr>
+      <td class="feature-label">See who's viewed my profile</td>
+      <td>
+        <%= show_checkmark_if INTROVERT.can_see_who_has_viewed_their_profile? %>
+      </td>
+      <td>
+        <%= show_checkmark_if CONNECTOR.can_see_who_has_viewed_their_profile? %>
+      </td>
+      <td>
+        <%= show_checkmark_if SOCIAL_SKYDIVER.can_see_who_has_viewed_their_profile? %>
+      </td>      
+    </tr>
+    <tr>
+      <td class="feature-label">See when a message I sent was read by recipient</td>
+      <td>
+        <%= show_checkmark_if INTROVERT.can_see_sent_messages_read? %>
+      </td>
+      <td>
+        <%= show_checkmark_if CONNECTOR.can_see_sent_messages_read? %>
+      </td>
+      <td>
+        <%= show_checkmark_if SOCIAL_SKYDIVER.can_see_sent_messages_read? %>
+      </td>
+    </tr>
+    <tr>
+      <td class="feature-label">Premium ad placement</td>
+      <td>
+        <%= show_checkmark_if INTROVERT.candidate_for_premium_ads? %>
+      </td>
+      <td>
+        <%= show_checkmark_if CONNECTOR.candidate_for_premium_ads? %>
+      </td>
+      <td>
+        <%= show_checkmark_if SOCIAL_SKYDIVER.candidate_for_premium_ads? %>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="feature-label" style="background: transparent"></td>
+      <td>
+        <span style="color: #2e2e2e; font-weight: bold; font-size: 1.2em">Free</span>
+      </td>
+      <td class="button">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="36LAVHCU4N8GW">
+        <%= hidden_field_tag :return, thanks_url %>
+        <%= hidden_field_tag :cancel_return, payment_cancelled_url %>
+        <input type="image" src="http://<%= request.host_with_port %>/images/upgrade-button.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+      </td>
+      <td class="button">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="YNRX4YLPX5MNL">
+        <%= hidden_field_tag :return, thanks_url %>
+        <%= hidden_field_tag :cancel_return, payment_cancelled_url %>
+        <input type="image" src="http://<%= request.host_with_port %>/images/upgrade-button.png?1273602309" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td class="feature-label" style="background: transparent"></td>
+      <td id="upgrade-footer" colspan="3">
+        One month minimum. Billed every 30 days. Cancel or change your plan at any time.
+      </td>
+    </tr>    
+  </table>
+</div>

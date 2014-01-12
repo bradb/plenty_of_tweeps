@@ -1,0 +1,38 @@
+<% @page_title = "Email Settings - Plenty of Tweeps" %>
+
+<% content_for :header do %>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $('button[type=submit]').button();
+  });  
+</script>
+<% end %>
+
+<%= render :partial => "profile_sub_navigation_tabs" %>
+
+<div id="non-results-content">
+<h2>Email Settings</h2>
+
+<% if flash[:notice].present? %>
+<div class="notice round" style="margin-bottom: 0.5em">
+  <ul>
+    <li><%= flash[:notice] %></li>
+  </ul>
+</div>
+<% end %>
+
+<% form_for current_user, :url => email_settings_users_path, :html => { :method => :post } do |f| %>
+<fieldset>
+  <%= f.check_box :email_on_new_message, :style => "font-size: 1em; float: left; width: 1em; margin-right: 0.5em" %>
+  <%= f.label :email_on_new_message, "Email me when I get a new message (recommended)" %>
+  <%= f.check_box :email_matches_notification, :style => "font-size: 1em; float: left; width: 1em; margin-right: 0.5em" %>
+  <%= f.label :email_matches_notification, "Email me new matches nearby", :style => "float:left" %>  
+  <div style="margin: 1em 0em 0em 0em">
+    <button type="submit" style="float: left; margin: 0; clear: left;">
+      <%= image_tag('disk_icon_16.png', :class => "icon-16") %> Save Changes
+    </button>
+  </div>
+</fieldset>
+<% end %>
+
+</div>

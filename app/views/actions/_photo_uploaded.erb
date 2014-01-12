@@ -1,0 +1,19 @@
+<% user = action.item.user %>
+<span class="user-image" style="margin-right: 1em">
+  <%= link_to user_profile_image_tag(user), "/users/#{h user.login}" %>
+</span>
+
+<span class="photo-upload">
+  <span class="user-title">
+    <%= link_to user.login, "/users/#{h user.login}" %>
+    uploaded a photo &rarr;
+  </span>
+  <span class="user-subtitle">
+    <%= time_ago_in_words(action.created_at).sub(/about|less than/, "").upcase %> AGO
+    <%= link_to "View all #{user.his_or_her} photos", "/users/#{h user.login}", :class => "view-profile" %>
+  </span>
+</span>
+
+<span class="uploaded-image">
+  <%= link_to(image_tag(action.item.data.url(:small)), "/users/#{h user.login}") %>
+</span>

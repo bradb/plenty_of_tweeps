@@ -1,0 +1,13 @@
+<% @page_title = "Search Your Twitter Followers - Plenty of Tweeps" %>
+
+<%= render :partial => "sub_navigation_tabs" %>
+<div class="info-box">
+  <p>This list shows all your Twitter followers. Apologies for showing <%= current_user.likes_girls? ? "dudes" : "dudettes" %>
+  in this listing too, but hey, when we say <em>all</em> your Twitter followers, we mean it.</p>
+  <ul id="suggested-actions">
+  <li>
+    <%= link_to "Browse only followers using Plenty of Tweeps &rarr;", search_followers_path, :class => "round" %>
+  </li>
+  </ul>
+</div>
+<%= render :partial => "user_listing", :locals => {:matching_users_paginated => @matching_users_paginated} %>

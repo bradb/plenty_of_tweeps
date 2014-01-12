@@ -1,0 +1,48 @@
+<div style="clear:both"></div>
+<ul class="user-listing">
+  <% matching_users_paginated.current_page_results.each_with_index do |matching_user,i| %>
+  <li class="contains-floats">
+    <span class="user-image" style="margin-right: 1em">
+      <%= link_to user_profile_image_tag(matching_user), "/users/#{h matching_user.login}" %>
+    </span>
+    <span class="user-title">
+      <%= link_to matching_user.login, "/users/#{h matching_user.login}", :style => "color: blue" %>
+    </span>
+    <% if logged_in? %>
+      <% if current_user.likes? matching_user %>
+      <%= render :partial => "users/status_like", :locals => { :user => matching_user } %>
+      <% end %>
+    <% end %>
+    <span class="user-subtitle" style="color: #4D4D4D">
+      <% if matching_user.registered? %>
+      <%= matching_user.age %>, <%= matching_user.gender_display.upcase %>.
+      <% end %>
+      <% if matching_user.location.present? %>
+      <%= matching_user.location.mb_chars.upcase %>.
+      <% end %>
+    </span>
+     <div class="user-bio">
+        <p>
+          <em>
+            <% if matching_user.latest_tweet.present? %>
+            Last tweeted: <%= h matching_user.latest_tweet %>
+            <% elsif matching_user.description.present? %>
+            <%= h matching_user.description %>
+            <% else %>
+            This user has not written a bio.
+            <% end %>
+          </em>
+        </p>
+     </div>
+  </li>
+  <% end %>
+</ul>
+<% if (request.path == search_all_twitter_users_nearby_path) ||
+      (request.path =~ %r{/cities/\w+}) %>
+  <% unless matching_users_paginated.current_page_results.size < 80 %>
+    <%= render :partial => "search/user_listing_pagination", :locals => {:matching_users_paginated => @matching_users_paginated} %>
+  <% end %>
+<% else %>
+  <%= render :partial => "search/user_listing_pagination", :locals => {:matching_users_paginated => @matching_users_paginated} %>
+<% end %>
+<div style="clear:both"></div>

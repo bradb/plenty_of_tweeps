@@ -1,0 +1,86 @@
+<% @page_title = "About Plenty of Tweeps" %>
+
+<% content_for :sidebar do %>
+<div>
+  <h3>How do you guys use my Twitter account?</h3>
+  <p>We believe strongly in protecting the privacy of your
+    actions on the site.</p>
+  <p> 
+    To that end, we <strong>never</strong> send
+    any tweets from your Twitter account.
+    We use <%= link_to "our own account", "http://www.twitter.com/PlentyOfTwps" %>
+    for notifications.
+  </p>
+  <p>
+    We also <strong>never</strong> use your Twitter username
+    in the notifications we send out. The only way, for example,
+    that a user can ever know that you clicked 
+    <span id="mini-like-button" class="round">&uarr; LIKE</span> on
+    their profile is if they <strong>register</strong> and
+    <strong>log in</strong>.
+  </p>
+</div>
+
+<% end %>
+
+<div class="funky-status">
+  About
+</div>
+
+<div class="about-row contains-floats">
+  <div class="about-label">What</div>
+  <div class="about-content">
+    Plenty of Tweeps: A dating site for Twitter users.
+  </div>
+</div>
+
+<div class="about-row contains-floats" style="padding-bottom: 2.5em">
+  <div class="about-label">Who</div>
+  <div class="about-content">
+    <div id="about-brad">
+      <span class="about-image"><%= image_tag "brad-at-conf.jpg" %></span>
+      <span class="name">Brad Bollenbach</span>
+      <span class="about-bio">
+        Blogger at <%= link_to "30 sleeps", "http://www.30sleeps.com" %><br />
+        Co-founder, Plenty of Tweeps<br />
+        Introverted extrovert<br />
+        Twitter: <%= link_to "@30sleeps", "http://www.twitter.com/30sleeps" %>
+      </span>
+    </div>
+    <div id="about-mark">
+      <span class="about-image"><%= image_tag "mark-on-bike.png" %></span>
+      <span class="name">Mark Rainer</span>
+      <span class="about-bio">
+        Founder, UsedCanada.com<br />
+        Co-founder, Plenty of Tweeps<br />
+        Happiest on a bike<br />
+        Twitter: <%= link_to "@MarkRainer", "http://www.twitter.com/MarkRainer" %>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="about-row contains-floats">
+  <div class="about-label">Why</div>
+  <div class="about-content">
+    <%= image_tag "motivation.png", :width => "500px" %>
+  </div>
+</div>
+
+<div class="about-row contains-floats">
+  <div class="about-label">
+    Where
+  </div>
+  <div class="about-content">
+    <%= link_to "Vancouver, Canada", "http://en.wikipedia.org/wiki/Vancouver" %>
+  </div>
+</div>
+
+<div class="about-row contains-floats">
+  <div class="about-label">
+    When
+  </div>
+  <div class="about-content">
+    Conceived Aug '09. Launched Oct '09.
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<% @page_title = "Change Location - Plenty of Tweeps" %>
+
+<%= render :partial => "profile_sub_navigation_tabs" %>
+
+<div id="non-results-content">
+
+<h2>Your Location</h2>
+<%= render :partial => "current_location" %>
+<h2>Change Location</h2>
+<% form_remote_for current_user, :url => get_locations_users_url, :method => :get do |f| %>
+<fieldset id="change-location">
+  <div class="data">
+    <%= f.label :location, "City or Postal/Zip Code" %>
+    <div class="ctn_input">
+      <%= f.text_field :location, :value => "", :style => "width: 12em" %>
+      <button type="submit">
+        <%= image_tag("search_icon_16.png", :class => "icon-16") %> Find Location
+      </button>
+    </div>
+  </div>
+</fieldset>
+<% end %>
+<script type="text/javascript">
+  $(function() {
+      $('#user_location').focus();
+      $('button[type=submit]').button();
+    });
+</script>
+
+<div id="matching-locations" style="display:none">
+</div>
+<div style="clear:both"></div>
+</div>

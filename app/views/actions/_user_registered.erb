@@ -1,0 +1,14 @@
+<span class="user-image" style="margin-right: 1em">
+  <%= link_to user_profile_image_tag(action.item), "/users/#{h action.item.login}" %>
+</span>
+<span class="user-title">
+  <%= link_to action.item.login, "/users/#{h action.item.login}" %>
+  (<%= h action.item.age %><%= h action.item.gender.upcase %>,
+  <% if action.item.city_name.present? -%>
+  <%= action.item.city_name %><% else %>Location Unknown<% end -%>)
+  joined.
+</span>
+<span class="user-subtitle">
+  <%= time_ago_in_words(action.created_at).sub(/about|less than/, "").upcase %> AGO
+  <%= link_to "View profile", "/users/#{h action.item.login}", :class => "view-profile" %>
+</span>
